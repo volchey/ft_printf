@@ -6,7 +6,7 @@
 #    By: vchechai <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/06 11:14:54 by vchechai          #+#    #+#              #
-#    Updated: 2018/01/11 17:00:26 by vchechai         ###   ########.fr        #
+#    Updated: 2018/01/20 17:20:27 by vchechai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,6 @@ all: $(NAME)
 $(NAME):
 	@gcc $(FLAGS) -c $(SRC)
 	@ar rc $(NAME) $(OSRC)
-	@gcc $(FLAGS) main.c $(SRC)
 
 clean:
 	@rm -f *.o
