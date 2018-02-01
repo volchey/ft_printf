@@ -1,25 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unistr.c                                        :+:      :+:    :+:   */
+/*   ft_unitoa_base.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchechai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/20 13:21:27 by vchechai          #+#    #+#             */
-/*   Updated: 2018/01/20 13:47:48 by vchechai         ###   ########.fr       */
+/*   Created: 2018/01/31 15:26:03 by vchechai          #+#    #+#             */
+/*   Updated: 2018/01/31 15:26:05 by vchechai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void		ft_unistr(int *ptr, t_list **str)
+static void	ft_base_str(unsigned long long nb, int base, unsigned long long len,
+									t_list **str)
 {
-	int		i;
+	char	chr[17] = "0123456789abcdef";
 
-	i = 0;
-	while (ptr[i])
+	while (len > 0)
 	{
-		ft_unichr(ptr[i], str);
-		i++;
+		ft_chrjoin(str, chr[nb / len]);
+		nb %= len;
+		len /= base;
 	}
+}
+
+void		ft_unitoa_base(unsigned long long nb, int base, t_list **str)
+{
+	unsigned long long	len;
+
+	len = 1;
+	while (nb / len > (unsigned  long long)(base - 1))
+		len *= base;
+	ft_base_str(nb, base, len, str);
 }

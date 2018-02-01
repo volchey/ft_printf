@@ -1,25 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unistr.c                                        :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchechai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/20 13:21:27 by vchechai          #+#    #+#             */
-/*   Updated: 2018/01/20 13:47:48 by vchechai         ###   ########.fr       */
+/*   Created: 2017/11/06 11:55:18 by vchechai          #+#    #+#             */
+/*   Updated: 2017/11/06 18:26:08 by vchechai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft.h"
 
-void		ft_unistr(int *ptr, t_list **str)
+t_list		*ft_lstnew(void const *content, size_t content_size)
 {
-	int		i;
+	t_list	*new;
 
-	i = 0;
-	while (ptr[i])
+	if (!(new = (t_list*)malloc(sizeof(t_list))))
+		return (0);
+	if (!(new->content = (void*)malloc(content_size)))
+		return (0);
+	if (!content)
 	{
-		ft_unichr(ptr[i], str);
-		i++;
+		new->content = 0;
+		new->content_size = 0;
 	}
+	else
+	{
+		ft_memcpy(new->content, content, content_size);
+		new->content_size = content_size;
+	}
+	new->next = NULL;
+	return (new);
 }

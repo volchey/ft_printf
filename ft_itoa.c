@@ -12,49 +12,32 @@
 
 #include "libft.h"
 
-static char	*ft_to_str(long int bn, long int i, int len, int f)
+static void		ft_to_str(long long n, long long i, int f, t_list **str)
 {
-	long int	j;
-	char		*arr;
-
-	j = 0;
-	arr = ft_strnew(len + 1);
-	if (arr == NULL)
-		return (arr);
 	if (f)
-		arr[j++] = '-';
+		ft_chrjoin(str, '-');
 	while (i > 0)
 	{
-		arr[j] = bn / i + '0';
-		bn %= i;
+		ft_chrjoin(str, (n / i + '0'));
+		n %= i;
 		i /= 10;
-		j++;
 	}
-	arr[j] = '\0';
-	return (arr);
 }
 
-char		*ft_itoa(int n)
+void			ft_itoa(long long n, t_list **str)
 {
-	long int	bn;
-	long int	i;
-	int			len;
+	long long	i;
 	int			f;
 
-	bn = n;
 	i = 1;
-	len = 0;
 	f = 0;
-	if (bn < 0)
+	if (n < 0)
 	{
 		f = 1;
-		bn *= -1;
-		len++;
+		n *= -1;
 	}
-	while (bn / i > 9)
-	{
+	while (n / i > 9)
 		i *= 10;
-		len++;
-	}
-	return (ft_to_str(bn, i, len, f));
+	ft_to_str(n, i, f, str);
 }
+

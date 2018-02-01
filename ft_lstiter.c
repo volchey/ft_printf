@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unistr.c                                        :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchechai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/20 13:21:27 by vchechai          #+#    #+#             */
-/*   Updated: 2018/01/20 13:47:48 by vchechai         ###   ########.fr       */
+/*   Created: 2017/11/07 10:02:40 by vchechai          #+#    #+#             */
+/*   Updated: 2017/11/07 10:08:39 by vchechai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void		ft_unistr(int *ptr, t_list **str)
+void	ft_lstiter(t_list *lst, void (*f)(t_list *elem))
 {
-	int		i;
-
-	i = 0;
-	while (ptr[i])
+	if (lst && f)
 	{
-		ft_unichr(ptr[i], str);
-		i++;
+		while (lst)
+		{
+			f(lst);
+			lst = lst->next;
+		}
 	}
 }

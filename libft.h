@@ -13,6 +13,8 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
+#define BUFF_SIZE 5
+
 # include <stdarg.h>
 # include <string.h>
 # include <stdlib.h>
@@ -33,23 +35,26 @@ typedef	struct		s_format
 	char 			*variable;
 }					t_format;
 
-char				*ft_unistr(int *ptr);
-unsigned char		*ft_unichar(unsigned int value);
+int					ft_put_del_lst(t_list **head);
+void				ft_unitoa_uppbase(unsigned long long nb, int base, t_list **str);
+void				ft_set_str(const char *s1, t_list **str);
+void				ft_unitoa_base(unsigned long long nb, int base, t_list **str);
+void				get_farg(va_list ap, t_format *format, t_list **str, int *length);
+char                *ft_itoa_base(int nb, int base);
+void				clear_struct(t_format *format);
+void				ft_unistr(int *ptr, t_list **str);
+void				ft_unichr(unsigned int value, t_list **str);
 int 				ft_power(int value, int power);
 char				*ft_binary(int value);
-char				*ft_wchar_tdup(wchar_t *s1);
-char				*ft_get_address(long int n);
-char				*ft_oct_itoa(int n);
+void				ft_get_address(unsigned long n, t_list **str);
+char        		*ft_oct_unlltoa(unsigned long long n);
+char				*ft_oct_itoa(unsigned long n);
 char				*ft_unitoa(unsigned int n);
-char				*ft_hex_itoa(long int x);
-char				*ft_upphex_itoa(long int x);
+char				*ft_hex_itoa(unsigned long int x);
+char				*ft_upphex_itoa(unsigned long int x);
 char				*ft_chr_to_str(char c);
-void 				ft_chrjoin(char **str, char c);
-void				get_flag(char *s);
-void				get_width(char *sint);
-void				get_precision(char *s);
-int					set_arg(const char *s, char **str, va_list ap);
-void				set_integer(char **str, int nb, int *i);
+void 				ft_chrjoin(t_list **str, char c);
+int					set_arg(t_list **str, va_list ap, t_format *format);
 int					ft_printf(const char *restrict format, ...);
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_bzero(void *s, size_t n);
@@ -96,7 +101,7 @@ char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(char const *s);
 char				**ft_strsplit(char const *s, char c);
 int					ft_count_word(char const *s, char c);
-char				*ft_itoa(int n);
+void				ft_itoa(long long n, t_list **str);
 void				ft_putchar(char c);
 void				ft_putstr(char const *s);
 void				ft_putendl(char const *s);

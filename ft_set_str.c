@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unistr.c                                        :+:      :+:    :+:   */
+/*   ft_set_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchechai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/20 13:21:27 by vchechai          #+#    #+#             */
-/*   Updated: 2018/01/20 13:47:48 by vchechai         ###   ########.fr       */
+/*   Created: 2017/11/06 12:41:54 by vchechai          #+#    #+#             */
+/*   Updated: 2017/11/06 17:49:50 by vchechai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void		ft_unistr(int *ptr, t_list **str)
+void	ft_set_str(const char *s1, t_list **str)
 {
-	int		i;
+	int	i;
 
 	i = 0;
-	while (ptr[i])
+	while (s1[i])
 	{
-		ft_unichr(ptr[i], str);
+		ft_chrjoin(str, s1[i]);
 		i++;
 	}
 }

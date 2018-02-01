@@ -12,38 +12,95 @@
 
 #include "libft.h"
 
-void		get_str(const char *s, char **str, va_list ap)
+int				set_width(const char *s, t_format *format)
 {
-	int		i;
+	int			i;
+	char		*sub;
 
 	i = 0;
-	while (*s)
-	{
-		if(*s == '%')
-		{
-//			set_stuct(s);
-			s += set_arg(s, str, ap);
-		}
-        if (*s)
-    		ft_chrjoin(str, *s);
-		if (*s)
-			s++;
-	}
+	while (ft_isdigit(s[i]))
+		i++;
+	sub = ft_strsub(s, 0, i);
+	format->width = ft_atoi(sub);
+	ft_strdel(&sub);
+	return (i);
 }
 
-int		ft_printf(const char *restrict format, ...)
+int				set_precision(const char *s, t_format *format)
 {
-	va_list ap;
-	char	*str;
-	int		size;
+	int			i;
+	char		*sub;
 
-	str = ft_strnew(0);
-    *str = '\0';
+	i = 0;
+	s++;
+	while (ft_isdigit(s[i]))
+		i++;
+	sub = ft_strsub(s, 0, i);
+	format->precision = ft_atoi(sub);
+	ft_strdel(&sub);
+	return (i);
+}
+
+void			set_struct(const char **s, t_format *format)
+{
+	if (ft_isdigit(**s))
+	{
+		*s += set_width(*s, format);
+		set_struct(s, format);
+	}
+	else if (**s == '#' || **s == '-' || **s == '+' || **s == ' ' || **s == '0')
+	{
+		format->flag = **s;
+		*s += 1;
+		set_struct(s, format);
+	}
+	else if (**s == '.')
+	{
+		*s += set_precision(*s, format);
+		set_struct(s, format);
+	}
+	else
+		format->variable = (char*)*s;
+}
+
+void			get_str(const char *s, t_list **str, va_list ap)
+{
+	t_format	*format;
+
+	format = malloc(sizeof(t_format));
+	while (*s)
+	{
+		if (*s == '%')
+		{
+			s++;
+			if (*s)
+			{
+				clear_struct(format);
+				set_struct(&s, format);
+				s += set_arg(str, ap, format);
+			}
+		}
+		if (str && *s && (*s != '%'))
+			ft_chrjoin(str, *s);
+		if (*s && *s != '%')
+			s++;
+	}
+	free(format);
+}
+
+int				ft_printf(const char *restrict format, ...)
+{
+	va_list		ap;
+	t_list		*str;
+	t_list		*head;
+	int 		size;
+
+	str = ft_lstnew("", BUFF_SIZE);
+	str->content_size = 0;
+	head = str;
 	va_start(ap, format);
 	get_str(format, &str, ap);
 	va_end(ap);
-	ft_putstr(str);
-	size = ft_strlen(str);
-    ft_strdel(&str);
+	size = ft_put_del_lst(&head);
 	return (size);
 }
