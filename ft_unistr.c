@@ -25,7 +25,7 @@ int			ft_num_size(int num)
 	return (i);
 }
 
-int			ft_arrlen(int *ptr)
+int			ft_arrlen(int *ptr, t_format *f)
 {
 	int i;
 	int size;
@@ -38,13 +38,13 @@ int			ft_arrlen(int *ptr)
 	while (ptr[++i])
 	{
 		size = ft_num_size(ptr[i]);
-		if (size < 8)
+		if ((size < 8) && (!f->precision || len + 1 <= f->precision))
 			len += 1;
-		else if (size < 12)
+		else if (size < 12 && (!f->precision || len + 2 <= f->precision))
 			len += 2;
-		else if (size < 17)
+		else if (size < 17 && (!f->precision || len + 3 <= f->precision))
 			len += 3;
-		else
+		else if (!f->precision || len + 4 <= f->precision)
 			len += 4;
 	}
 	return (len);
@@ -63,7 +63,7 @@ static void	put_str(int *s1, t_list **str, t_format *f)
 		while (s1 && s1[i])
 		{
 			size = ft_num_size(s1[i]);
-			if (size < 8 || MB_CUR_MAX == 1)
+			if (size < 8)
 				len += 1;
 			else if (size < 12)
 				len += 2;
@@ -71,10 +71,9 @@ static void	put_str(int *s1, t_list **str, t_format *f)
 				len += 3;
 			else
 				len += 4;
-			ft_unichr(s1[i], str);
+			if (!f->precision || len <= f->precision)
+				ft_unichr(s1[i], str);
 			i++;
-			if (len == f->precision)
-				break ;
 		}
 	}
 }
@@ -84,11 +83,9 @@ void		ft_unistr(int *s1, t_list **str, t_format *f)
 	int		len;
 	char	c;
 
-	len = ft_arrlen(s1);
+	len = ft_arrlen(s1, f);
 	if (!s1)
 		ft_set_str(0, str, f);
-	if (f->precision && f->precision != -1 && len > f->precision)
-		len = f->precision;
 	len = (f->precision == -1) ? 0 : len;
 	if (f->width > len && s1)
 	{

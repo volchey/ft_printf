@@ -54,8 +54,6 @@ void				ft_unichr(unsigned int value, t_list **str)
 		i /= 2;
 		size++;
 	}
-	if (size > 8 && MB_CUR_MAX == 1)
-		exit(-1);
 	if (size < 8 || MB_CUR_MAX == 1)
 		ft_chrjoin(str, value);
 	else if (size < 12)
