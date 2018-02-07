@@ -28,12 +28,13 @@ static int	num_size(unsigned long long n, int base, t_format *format)
 }
 
 static void	ft_to_str(unsigned long long n, int base, t_format *format,
-						 t_list **str)
+						t_list **str)
 {
-	char				buf[17] = "0123456789ABCDEF";
+	char				buf[17];
 	int					len;
 	unsigned long long	i;
 
+	ft_strcpy(buf, "0123456789ABCDEF");
 	len = num_size(n, base, format);
 	i = ft_power(base, len - 1);
 	if (format->hesh && n != 0)
@@ -53,7 +54,7 @@ static void	ft_to_str(unsigned long long n, int base, t_format *format,
 }
 
 static void	ft_pre_str(unsigned long long n, int base, t_format *format,
-						  t_list **str)
+						t_list **str)
 {
 	if (format->hesh && n != 0)
 	{
@@ -66,7 +67,7 @@ static void	ft_pre_str(unsigned long long n, int base, t_format *format,
 }
 
 void		ft_unitoa_uppbase(unsigned long long n, int base,
-						   t_list **str, t_format *format)
+								t_list **str, t_format *format)
 {
 	long long	len;
 
