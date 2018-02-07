@@ -63,7 +63,7 @@ static void	put_str(int *s1, t_list **str, t_format *f)
 		while (s1 && s1[i])
 		{
 			size = ft_num_size(s1[i]);
-			if (size < 8)
+			if (size < 8 || MB_CUR_MAX == 1)
 				len += 1;
 			else if (size < 12)
 				len += 2;
