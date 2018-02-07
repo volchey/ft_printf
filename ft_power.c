@@ -12,12 +12,12 @@
 
 #include "libft.h"
 
-int		ft_power(int num, int power)
+unsigned long long	ft_power(long long num, int power)
 {
-	int	res;
+	unsigned long long	res;
 
 	res = num;
-	if (power == 0)
+	if (power <= 0)
 		res = 1;
 	while (power > 1)
 	{

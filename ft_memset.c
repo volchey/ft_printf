@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_chrjoin.c                                       :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchechai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/15 16:36:32 by vchechai          #+#    #+#             */
-/*   Updated: 2018/01/15 16:37:03 by vchechai         ###   ########.fr       */
+/*   Created: 2017/11/06 12:21:48 by vchechai          #+#    #+#             */
+/*   Updated: 2017/11/06 12:36:44 by vchechai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void 		ft_chrjoin(t_list **str, char c)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	char	*buf;
-	t_list	*new;
+	unsigned char	*b0;
 
-    if (str)
-    {
-		if ((*str)->content_size == BUFF_SIZE)
-		{
-			new = ft_lstnew("", BUFF_SIZE);
-			new->content_size = 0;
-			(*str)->next = new;
-			*str = (*str)->next;
-			(*str)->content_size = 0;
-		}
-		buf = (char*)(*str)->content;
-		buf[(*str)->content_size] = c;
-		(*str)->content_size += 1;
-    }
+	b0 = (unsigned char*)b;
+	while (len--)
+	{
+		*b0 = c;
+		b0++;
+	}
+	return (b);
 }

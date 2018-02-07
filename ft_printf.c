@@ -33,6 +33,11 @@ int				set_precision(const char *s, t_format *format)
 
 	i = 0;
 	s++;
+	if (!ft_isdigit(s[i]) || s[i] == '0')
+	{
+		format->precision = -1;
+		return (0);
+	}
 	while (ft_isdigit(s[i]))
 		i++;
 	sub = ft_strsub(s, 0, i);
@@ -43,24 +48,31 @@ int				set_precision(const char *s, t_format *format)
 
 void			set_struct(const char **s, t_format *format)
 {
-	if (ft_isdigit(**s))
+	if (ft_isdigit(**s) && **s != '0')
 	{
 		*s += set_width(*s, format);
 		set_struct(s, format);
 	}
 	else if (**s == '#' || **s == '-' || **s == '+' || **s == ' ' || **s == '0')
 	{
-		format->flag = **s;
+		if (**s == '-')
+			format->minus = 1;
+		if (**s == '+')
+			format->plus = 1;
+		if (**s == ' ')
+			format->space = 1;
+		if (**s == '0')
+			format->zero = 1;
+		if (**s == '#')
+			format->hesh = 1;
 		*s += 1;
 		set_struct(s, format);
 	}
 	else if (**s == '.')
 	{
-		*s += set_precision(*s, format);
+		*s += set_precision(*s, format) + 1;
 		set_struct(s, format);
 	}
-	else
-		format->variable = (char*)*s;
 }
 
 void			get_str(const char *s, t_list **str, va_list ap)
@@ -77,6 +89,7 @@ void			get_str(const char *s, t_list **str, va_list ap)
 			{
 				clear_struct(format);
 				set_struct(&s, format);
+				format->variable = s;
 				s += set_arg(str, ap, format);
 			}
 		}

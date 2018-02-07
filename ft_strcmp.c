@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_chrjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchechai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/15 16:36:32 by vchechai          #+#    #+#             */
-/*   Updated: 2018/01/15 16:37:03 by vchechai         ###   ########.fr       */
+/*   Created: 2017/11/06 15:09:30 by vchechai          #+#    #+#             */
+/*   Updated: 2017/11/06 15:11:39 by vchechai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void 		ft_chrjoin(t_list **str, char c)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	char	*buf;
-	t_list	*new;
+	unsigned char	b1;
+	unsigned char	b2;
+	int				i;
 
-    if (str)
-    {
-		if ((*str)->content_size == BUFF_SIZE)
-		{
-			new = ft_lstnew("", BUFF_SIZE);
-			new->content_size = 0;
-			(*str)->next = new;
-			*str = (*str)->next;
-			(*str)->content_size = 0;
-		}
-		buf = (char*)(*str)->content;
-		buf[(*str)->content_size] = c;
-		(*str)->content_size += 1;
-    }
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] && s2[i])
+		i++;
+	b1 = s1[i];
+	b2 = s2[i];
+	return (b1 - b2);
 }
