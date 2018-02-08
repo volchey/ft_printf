@@ -45,7 +45,8 @@ int				set_precision(const char *s, t_format *format, va_list ap)
 	if (*s == '*')
 	{
 		x = va_arg(ap, int);
-		format->precision = x < 0 ? x * -1 : x;
+		x = x == 0 ? -1 : x;
+		format->precision = (x < 0 && x != -1) ? 0 : x;
 		return (1);
 	}
 	if (!ft_isdigit(s[i]) || s[i] == '0')
