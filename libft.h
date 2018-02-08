@@ -13,7 +13,7 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# define BUFF_SIZE 100
+# define BUFF_SIZE 30
 
 # include <stdarg.h>
 # include <string.h>
@@ -39,6 +39,7 @@ typedef	struct		s_format
 	const char		*variable;
 }					t_format;
 
+int					ft_numlen(int n);
 void				ft_set_chr(char c, t_list **str, t_format *format);
 int					ft_put_del_lst(t_list **head);
 void				ft_unitoa_uppbase(unsigned long long nb, int base,

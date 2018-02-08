@@ -12,12 +12,20 @@
 
 #include "libft.h"
 
-int				set_width(const char *s, t_format *format)
+int				set_width(const char *s, t_format *format, va_list ap)
 {
 	int			i;
+	int			x;
 	char		*sub;
 
 	i = 0;
+	if (*s == '*' && !format->width)
+	{
+		x = va_arg(ap, int);
+		format->width = x < 0 ? (x * -1) : x;
+		format->minus = x < 0 ? 1 : 0;
+		return (1);
+	}
 	while (ft_isdigit(s[i]))
 		i++;
 	sub = ft_strsub(s, 0, i);
@@ -26,13 +34,20 @@ int				set_width(const char *s, t_format *format)
 	return (i);
 }
 
-int				set_precision(const char *s, t_format *format)
+int				set_precision(const char *s, t_format *format, va_list ap)
 {
 	int			i;
+	int			x;
 	char		*sub;
 
 	i = 0;
 	s++;
+	if (*s == '*')
+	{
+		x = va_arg(ap, int);
+		format->precision = x < 0 ? x * -1 : x;
+		return (1);
+	}
 	if (!ft_isdigit(s[i]) || s[i] == '0')
 	{
 		format->precision = -1;
@@ -46,12 +61,12 @@ int				set_precision(const char *s, t_format *format)
 	return (i);
 }
 
-void			set_struct(const char **s, t_format *format)
+void			set_struct(const char **s, t_format *format, va_list ap)
 {
-	if (ft_isdigit(**s) && **s != '0')
+	if ((ft_isdigit(**s) && **s != '0') || (**s == '*'))
 	{
-		*s += set_width(*s, format);
-		set_struct(s, format);
+		*s += set_width(*s, format, ap);
+		set_struct(s, format, ap);
 	}
 	else if (**s == '#' || **s == '-' || **s == '+' || **s == ' ' || **s == '0')
 	{
@@ -66,12 +81,12 @@ void			set_struct(const char **s, t_format *format)
 		if (**s == '#')
 			format->hesh = 1;
 		*s += 1;
-		set_struct(s, format);
+		set_struct(s, format, ap);
 	}
 	else if (**s == '.')
 	{
-		*s += set_precision(*s, format) + 1;
-		set_struct(s, format);
+		*s += set_precision(*s, format, ap) + 1;
+		set_struct(s, format, ap);
 	}
 }
 
@@ -88,7 +103,7 @@ void			get_str(const char *s, t_list **str, va_list ap)
 			if (*s)
 			{
 				clear_struct(format);
-				set_struct(&s, format);
+				set_struct(&s, format, ap);
 				format->variable = s;
 				s += set_arg(str, ap, format);
 			}

@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int			ft_num_size(int num)
+static int	ft_num_size(int num)
 {
 	int i;
 
@@ -25,7 +25,7 @@ int			ft_num_size(int num)
 	return (i);
 }
 
-int			ft_arrlen(int *ptr, t_format *f)
+static int	ft_arrlen(int *ptr, t_format *f)
 {
 	int i;
 	int size;
