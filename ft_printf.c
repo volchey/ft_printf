@@ -23,7 +23,7 @@ int				set_width(const char *s, t_format *format, va_list ap)
 	{
 		x = va_arg(ap, int);
 		format->width = x < 0 ? (x * -1) : x;
-		format->minus = x < 0 ? 1 : 0;
+		format->minus = (x < 0 || format->minus) ? 1 : 0;
 		return (1);
 	}
 	while (ft_isdigit(s[i]))
